@@ -31,22 +31,18 @@ public class StrongStrategy extends Strategy {
 			List<Move> possibleMoves = new ArrayList<Move>();			
 			for (Integer[] integers : availableMoves) {
 				Move move = new Move(integers[0], integers[1], cells);
-				//log.info("move: " + Integer.toString(integers[0]) + " " + Integer.toString(integers[0]));
 				move.updateCell(integers[0], integers[1], computerChar);
 				possibleMoves.add(move);				
-				move.addScore(calculateScore(3, "opponent", move.getCells()));
-				log.info("move " + Integer.toString(move.getRow()) + " " + Integer.toString(move.getColumn()) + " " + Integer.toString(move.getScore()));
+				move.addScore(calculateScore(5, "opponent", move.getCells()));
 			}			
 			
 			//find best score
 			Move bestMove = possibleMoves.get(0);
 			for (Move move : possibleMoves) {
-				log.info("best move " + Integer.toString(move.getRow()) + " " + Integer.toString(move.getColumn()) + " " + Integer.toString(move.getScore()));
 				if(move.getScore() > bestMove.getScore()){
 					bestMove = move;
 				}
 			}
-			log.info("best move: " + Integer.toString(bestMove.getRow()) + " " + Integer.toString(bestMove.getColumn()) + " " + Integer.toString(bestMove.getScore()));
 			//make a move
 			ApplicationController.getGameStatusById(gameId).playerMove(bestMove.getRow() + 1, bestMove.getColumn() + 1, computerChar);
 			checkIfGameOverAndUpdate();
@@ -57,7 +53,6 @@ public class StrongStrategy extends Strategy {
 		if(depth == 0 || boardFull(cells)){
 			return 0;
 		}
-		log.info("depth " + Integer.toString(depth));
 		int bestResult;		
 		if(player.equals("computer")){
 			bestResult = -1000;
@@ -82,37 +77,11 @@ public class StrongStrategy extends Strategy {
 			thisPlayerChar = opponentChar;
 		}
 		
-		int score = 0;
-		String test="";
-		for (int i=0; i<cells.length; i++) {
-			for (int j = 0; j < cells[i].length; j++) {
-				test += cells[i][j] + ", ";
-			}
-			test += "\n";
-		}
-		log.info(test);
+		int score = 0;		
 		if(playerWon(cells, computerChar)){
-			log.info("computer won");
-			test="";
-			for (int i=0; i<cells.length; i++) {
-				for (int j = 0; j < cells[i].length; j++) {
-					test += cells[i][j] + ", ";
-				}
-				test += "\n";
-			}
-			log.info(test);
 			return 10;
 		}
 		else if(playerWon(cells, opponentChar)){
-			log.info("player won");
-			test="";
-			for (int i=0; i<cells.length; i++) {
-				for (int j = 0; j < cells[i].length; j++) {
-					test += cells[i][j] + ", ";
-				}
-				test += "\n";
-			}
-			log.info(test);
 			return -10;
 		}
 		else{
@@ -129,7 +98,6 @@ public class StrongStrategy extends Strategy {
 				}
 			}
 		}		
-		//log.info(player + " " + Integer.toString(bestResult));
 		return bestResult;
 	}
 	

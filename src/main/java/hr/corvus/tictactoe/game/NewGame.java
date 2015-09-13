@@ -16,7 +16,7 @@ public class NewGame {
 
 	final long id;
 	@JsonIgnore
-	final Strategy strategy;
+	private Strategy strategy;
 	@JsonIgnore
 	final String player;
 	@JsonIgnore
@@ -69,6 +69,10 @@ public class NewGame {
 	
 	public Strategy getStrategy(){
 		return strategy;
+	}
+	
+	public void setStrategy(Strategy strategy){
+		this.strategy = strategy;
 	}
 	
 	public Strategy chooseStrategy(String player){
