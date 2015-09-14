@@ -55,4 +55,18 @@ public class WeakStrategyTest {
 		assertEquals(ApplicationController.getGameStatusById(100).getGame().get(6).getValue(),'O');
 	}
 	
+	@Test
+	public void ComputerWon(){
+		NewGame game = new NewGame(100, "Nives", "");
+		Strategy strategy = new WeakStrategy(100, 'O');
+		ApplicationController.addGame(100, game);
+		ApplicationController.getGameStatusById(100).playerMove(1, 1, 'X');
+		strategy.computersMove();
+		ApplicationController.getGameStatusById(100).playerMove(1, 2, 'X');
+		strategy.computersMove();
+		ApplicationController.getGameStatusById(100).playerMove(2, 1, 'X');
+		strategy.computersMove();
+		assertEquals(ApplicationController.getGameStatusById(100).getGame().get(6).getValue(),'O');
+	}
+	
 }

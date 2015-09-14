@@ -1,8 +1,8 @@
 package hr.corvus.tictactoe;
 
 import hr.corvus.tictactoe.game.GameStats;
-import hr.corvus.tictactoe.game.GameStatus;
 import hr.corvus.tictactoe.game.GameStatsRepresentation;
+import hr.corvus.tictactoe.game.GameStatus;
 import hr.corvus.tictactoe.game.NewGame;
 
 import java.util.HashMap;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ApplicationController {
-	
-	private static HashMap<Long, NewGame> games = new HashMap<Long, NewGame>();
+
+	private static HashMap<Long, NewGame> games = new HashMap<Long, NewGame>();	
 	private static HashMap<Long, GameStatus> gamesStatus = new HashMap<Long, GameStatus>();
     private final AtomicLong counter = new AtomicLong();
 
@@ -52,7 +52,7 @@ public class ApplicationController {
     }
     
     @RequestMapping(method = RequestMethod.GET,value = "/game/play")
-    public ResponseEntity<GameStatus> playeMove(@RequestParam(value="gameId")  long id,
+    public ResponseEntity<GameStatus> playerMove(@RequestParam(value="gameId")  long id,
     		@RequestParam(value="row")  int row,
     		@RequestParam(value="column")  int column) {
        if(getGameStatusById(id).playerMove(row, column, games.get(id).getPlayerChar())){

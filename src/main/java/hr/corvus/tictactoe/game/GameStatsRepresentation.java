@@ -2,15 +2,17 @@ package hr.corvus.tictactoe.game;
 
 import java.util.Collection;
 
+
 public class GameStatsRepresentation {
 
-	private Collection<PlayerStatistic> stats;
+	//private Collection<PlayerStatistic> stats;
+	private Object[] stats;
 	
-	public GameStatsRepresentation(Collection<PlayerStatistic> stat) {
-		this.stats = stat;
+	public GameStatsRepresentation(Collection<PlayerStatistic> stats) {
+		this.stats = stats.toArray();
 	}
 	
-	public Collection<PlayerStatistic> getStat(){
+	public Object[] getStat(){
 		return stats;
 	}
 }
