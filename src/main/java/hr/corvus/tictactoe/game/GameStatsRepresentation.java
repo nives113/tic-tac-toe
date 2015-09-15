@@ -5,7 +5,6 @@ import java.util.Collection;
 
 public class GameStatsRepresentation {
 
-	//private Collection<PlayerStatistic> stats;
 	private Object[] stats;
 	
 	public GameStatsRepresentation(Collection<PlayerStatistic> stats) {

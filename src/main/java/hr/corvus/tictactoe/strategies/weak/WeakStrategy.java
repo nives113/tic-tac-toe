@@ -1,7 +1,7 @@
 package hr.corvus.tictactoe.strategies.weak;
 
-import hr.corvus.tictactoe.ApplicationController;
 import hr.corvus.tictactoe.game.Field;
+import hr.corvus.tictactoe.game.data.GameData;
 import hr.corvus.tictactoe.strategies.Strategy;
 
 public class WeakStrategy extends Strategy {
@@ -12,19 +12,18 @@ public class WeakStrategy extends Strategy {
 
 	@Override
 	public void computersMove() {
-		if (checkIfGameOverAndUpdate()) {
-			return;
-		} else {
-			int[] result = greedyAlgorithm();
-			ApplicationController.getGameStatusById(gameId).playerMove(
-					result[0] + 1, result[1] + 1, computerChar);
-			checkIfGameOverAndUpdate();
-		}
+		if (checkIfGameOverAndUpdate()) 
+			return;		
+		int[] result = greedyAlgorithm();
+		GameData.getGameStatusById(gameId).playerMove(
+				result[0] + 1, result[1] + 1, computerChar);
+		checkIfGameOverAndUpdate();
+		
 	}
 
 	private int[] greedyAlgorithm() {
 		char[][] cells = new char[3][3];
-		for (Field field : ApplicationController.getGameStatusById(gameId)
+		for (Field field : GameData.getGameStatusById(gameId)
 				.getGame()) {
 			cells[field.getRow() - 1][field.getColumn() - 1] = field.getValue();
 		}
@@ -35,22 +34,22 @@ public class WeakStrategy extends Strategy {
 		} else {
 			opponentChar = 'X';
 		}
-		//check if player player can win
+		// check if player player can win
 		rowColumn = playerHasTwoInRow(cells, computerChar);
-		if(rowColumn != null){
+		if (rowColumn != null) {
 			return rowColumn;
 		}
 		rowColumn = playerHasTwoDiagonal(cells, computerChar);
-		if(rowColumn != null){
+		if (rowColumn != null) {
 			return rowColumn;
 		}
 		// check if can win
 		rowColumn = playerHasTwoInRow(cells, opponentChar);
-		if(rowColumn != null){
+		if (rowColumn != null) {
 			return rowColumn;
 		}
 		rowColumn = playerHasTwoDiagonal(cells, opponentChar);
-		if(rowColumn != null){
+		if (rowColumn != null) {
 			return rowColumn;
 		}
 		// add in the middle if available

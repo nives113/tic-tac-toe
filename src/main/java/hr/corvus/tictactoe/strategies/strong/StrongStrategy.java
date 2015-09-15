@@ -1,12 +1,11 @@
 package hr.corvus.tictactoe.strategies.strong;
 
+import hr.corvus.tictactoe.game.Field;
+import hr.corvus.tictactoe.game.data.GameData;
+import hr.corvus.tictactoe.strategies.Strategy;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
-import hr.corvus.tictactoe.ApplicationController;
-import hr.corvus.tictactoe.game.Field;
-import hr.corvus.tictactoe.strategies.Strategy;
 
 public class StrongStrategy extends Strategy {
 
@@ -19,14 +18,12 @@ public class StrongStrategy extends Strategy {
 		if (checkIfGameOverAndUpdate()) {
 			return;
 		} else {
-			// computer move
 			char[][] cells = new char[3][3];
-			for (Field field : ApplicationController.getGameStatusById(gameId)
+			for (Field field : GameData.getGameStatusById(gameId)
 					.getGame()) {
 				cells[field.getRow() - 1][field.getColumn() - 1] = field
 						.getValue();
 			}
-			// minimax	
 			List<Integer[]> availableMoves = getAvailableMoves(cells);
 			List<Move> possibleMoves = new ArrayList<Move>();			
 			for (Integer[] integers : availableMoves) {
@@ -35,30 +32,28 @@ public class StrongStrategy extends Strategy {
 				possibleMoves.add(move);				
 				move.addScore(calculateScore(5, "opponent", move.getCells()));
 			}			
-			
-			//find best score
 			Move bestMove = possibleMoves.get(0);
 			for (Move move : possibleMoves) {
 				if(move.getScore() > bestMove.getScore()){
 					bestMove = move;
 				}
 			}
-			//make a move
-			ApplicationController.getGameStatusById(gameId).playerMove(bestMove.getRow() + 1, bestMove.getColumn() + 1, computerChar);
+			GameData.getGameStatusById(gameId).playerMove(bestMove.getRow() + 1, bestMove.getColumn() + 1, computerChar);
 			checkIfGameOverAndUpdate();
 		}
 	}	
 	
+	//find best score using minimax algorithm
 	private int calculateScore(int depth, String player, char[][] cells){			
 		if(depth == 0 || boardFull(cells)){
 			return 0;
 		}
 		int bestResult;		
 		if(player.equals("computer")){
-			bestResult = -1000;
+			bestResult = 1000;
 		}
 		else{
-			bestResult = 1000;
+			bestResult = -1000;
 		}	
 		
 		char opponentChar = 'X';
@@ -90,10 +85,10 @@ public class StrongStrategy extends Strategy {
 				cells[integers[0]][integers[1]] = thisPlayerChar;				
 				score += calculateScore(depth - 1, nextPlayer, cells);
 				cells[integers[0]][integers[1]] = ' ';
-				if(player.equals("computer") && score > bestResult){
+				if(player.equals("computer") && score < bestResult){
 					bestResult = score;
 				}
-				else if(!player.equals("computer") && score < bestResult){
+				else if(!player.equals("computer") && score > bestResult){
 					bestResult = score;
 				}
 			}

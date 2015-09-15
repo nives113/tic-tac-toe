@@ -96,7 +96,7 @@ public class NewGame {
 		}
 		else{
 			Random randomGenerator = new Random();
-			if(randomGenerator.nextBoolean() == true){
+			if(randomGenerator.nextBoolean()){
 				log.info("Weak strategy");
 				strategy = new WeakStrategy(this.id, computerChar);;
 			}

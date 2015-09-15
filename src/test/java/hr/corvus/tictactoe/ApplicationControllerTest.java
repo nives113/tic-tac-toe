@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import hr.corvus.tictactoe.game.NewGame;
+import hr.corvus.tictactoe.game.data.GameData;
 
 import java.nio.charset.Charset;
 
@@ -90,7 +91,7 @@ public class ApplicationControllerTest {
 
 	@Test
 	public void gamePlay() throws Exception {
-		ApplicationController.addGame(100, new NewGame(100, "Nives", ""));
+		GameData.addGame(100, new NewGame(100, "Nives", ""));
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
 				.get("/game/play").param("gameId", "100").param("row", "2")
 				.param("column", "2");
@@ -99,7 +100,7 @@ public class ApplicationControllerTest {
 
 	@Test
 	public void gamePlayInvalidMove() throws Exception {
-		ApplicationController.addGame(100, new NewGame(100, "Nives", ""));
+		GameData.addGame(100, new NewGame(100, "Nives", ""));
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
 				.get("/game/play").param("gameId", "100").param("row", "2")
 				.param("column", "2");
