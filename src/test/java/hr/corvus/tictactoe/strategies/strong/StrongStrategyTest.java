@@ -36,6 +36,23 @@ public class StrongStrategyTest {
 		strategy.computersMove();
 		assertEquals(GameData.getGameStatusById(100).getGame().get(6).getValue(),'O');
 	}
+	
+	@Test
+	public void ComputerWin(){
+		NewGame game = new NewGame(100, "Nives", "");
+		Strategy strategy = new StrongStrategy(100, 'O');
+		game.setStrategy(strategy);
+		GameData.addGame(100, game);
+		GameData.getGameStatusById(100).playerMove(1, 1, 'X');
+		strategy.computersMove();
+		GameData.getGameStatusById(100).playerMove(2, 2, 'X');
+		strategy.computersMove();
+		GameData.getGameStatusById(100).playerMove(1, 3, 'X');
+		strategy.computersMove();
+		GameData.getGameStatusById(100).playerMove(2, 1, 'X');
+		strategy.computersMove();
+		assertEquals(GameData.getGameStatusById(100).getGame().get(7).getValue(),'O');
+	}
 
 	
 }

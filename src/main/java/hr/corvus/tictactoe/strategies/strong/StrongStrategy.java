@@ -25,12 +25,14 @@ public class StrongStrategy extends Strategy {
 						.getValue();
 			}
 			List<Integer[]> availableMoves = getAvailableMoves(cells);
-			List<Move> possibleMoves = new ArrayList<Move>();			
+			List<Move> possibleMoves = new ArrayList<Move>();		
+			log.info("new Minimax");
 			for (Integer[] integers : availableMoves) {
 				Move move = new Move(integers[0], integers[1], cells);
 				move.updateCell(integers[0], integers[1], computerChar);
 				possibleMoves.add(move);				
 				move.addScore(calculateScore(5, "opponent", move.getCells()));
+				log.info(Integer.toString(move.getRow()) + " " + Integer.toString(move.getColumn()) + ", " + Integer.toString(move.getScore()));
 			}			
 			Move bestMove = possibleMoves.get(0);
 			for (Move move : possibleMoves) {
@@ -50,10 +52,10 @@ public class StrongStrategy extends Strategy {
 		}
 		int bestResult;		
 		if(player.equals("computer")){
-			bestResult = 1000;
+			bestResult = -1000;
 		}
 		else{
-			bestResult = -1000;
+			bestResult = 1000;
 		}	
 		
 		char opponentChar = 'X';
@@ -83,12 +85,12 @@ public class StrongStrategy extends Strategy {
 			List<Integer[]> moves = getAvailableMoves(cells);
 			for (Integer[] integers : moves) {
 				cells[integers[0]][integers[1]] = thisPlayerChar;				
-				score += calculateScore(depth - 1, nextPlayer, cells);
+				score += calculateScore(depth - 1, nextPlayer, cells)*0.1*(depth);
 				cells[integers[0]][integers[1]] = ' ';
-				if(player.equals("computer") && score < bestResult){
+				if(player.equals("computer") && score > bestResult){
 					bestResult = score;
 				}
-				else if(!player.equals("computer") && score > bestResult){
+				else if(!player.equals("computer") && score < bestResult){
 					bestResult = score;
 				}
 			}
